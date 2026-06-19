@@ -2,84 +2,84 @@
 
 ## 1. Dataset Overview
 
-| Item | Value |
-|---|---|
-| Dataset Name | retail_store_sales |
-| Number of Rows | 12575 |
-| Number of Columns | 16 |
-| File Format | CSV |
-| Numerical Columns | price_per_unit, quantity, total_spent |
+| Item                | Value                                                                 |
+| ------------------- | --------------------------------------------------------------------- |
+| Dataset Name        | retail_store_sales                                                    |
+| Number of Rows      | 12575                                                                 |
+| Number of Columns   | 16                                                                    |
+| File Format         | CSV                                                                   |
+| Numerical Columns   | price_per_unit, quantity, total_spent                                 |
 | Categorical Columns | transaction_id, customer_id, category, item, payment_method, location |
-| Date Columns | transaction_date |
-| Boolean Columns | discount_applied |
+| Date Columns        | transaction_date                                                      |
+| Boolean Columns     | discount_applied                                                      |
 
 ---
 
 ## 2. Data Quality Issues
 
-| Column | Issue Found | Number of Records | Suggested Fix |
-|---|---|---|---|
-| quantity | Missing values | Check output | Fill with median |
-| total_spent | Missing values | Check output | Fill with median |
-| category | Inconsistent casing / extra spaces | Check output | str.strip().str.title() |
-| transaction_date | Wrong dtype (object) | All rows | Convert using pd.to_datetime() |
-| discount_applied | Mixed types (bool/string) | Check output | Convert to boolean |
+| Column           | Issue Found                        | Number of Records | Suggested Fix                  |
+| ---------------- | ---------------------------------- | ----------------- | ------------------------------ |
+| quantity         | Missing values                     | Check output      | Fill with median               |
+| total_spent      | Missing values                     | Check output      | Fill with median               |
+| category         | Inconsistent casing / extra spaces | Check output      | str.strip().str.title()        |
+| transaction_date | Wrong dtype (object)               | All rows          | Convert using pd.to_datetime() |
+| discount_applied | Mixed types (bool/string)          | Check output      | Convert to boolean             |
 
 ---
 
 ## 3. Cleaning Steps
 
-| Cleaning Step | Column Used | Method Applied | Reason |
-|---|---|---|---|
-| Missing value handling | quantity, total_spent | fillna(median) | Preserve rows, avoid data loss |
-| Duplicate removal | All columns | drop_duplicates() | Remove redundant records |
-| Text standardization | category, payment_method, location | str.strip().str.title() | Consistent formatting |
-| Type conversion | transaction_date | pd.to_datetime() | Enable date-based operations |
-| Column renaming | All columns | str.lower().str.replace(" ","_") | Standardize naming convention |
+| Cleaning Step          | Column Used                        | Method Applied                    | Reason                         |
+| ---------------------- | ---------------------------------- | --------------------------------- | ------------------------------ |
+| Missing value handling | quantity, total_spent              | fillna(median)                    | Preserve rows, avoid data loss |
+| Duplicate removal      | All columns                        | drop_duplicates()                 | Remove redundant records       |
+| Text standardization   | category, payment_method, location | str.strip().str.title()           | Consistent formatting          |
+| Type conversion        | transaction_date                   | pd.to_datetime()                  | Enable date-based operations   |
+| Column renaming        | All columns                        | str.lower().str.replace(" ","\_") | Standardize naming convention  |
 
 ---
 
 ## 4. Exploratory Data Analysis
 
-| Analysis Question | Pandas Function Used | Key Finding |
-|---|---|---|
-| Which category appears most often? | value_counts() | Top category has highest transaction frequency |
-| Which records have highest spend? | sort_values() | Top 10 records all exceed 800 in total_spent |
-| Which transactions are discounted? | filtering | Large share of records have discount_applied = True |
-| Which location generates more sales? | value_counts() | Online is a dominant or equal sales channel |
-| Which payment method is most used? | value_counts() | Digital Wallet leads all payment methods |
+| Analysis Question                    | Pandas Function Used | Key Finding                                         |
+| ------------------------------------ | -------------------- | --------------------------------------------------- |
+| Which category appears most often?   | value_counts()       | Top category has highest transaction frequency      |
+| Which records have highest spend?    | sort_values()        | Top 10 records all exceed 800 in total_spent        |
+| Which transactions are discounted?   | filtering            | Large share of records have discount_applied = True |
+| Which location generates more sales? | value_counts()       | Online is a dominant or equal sales channel         |
+| Which payment method is most used?   | value_counts()       | Digital Wallet leads all payment methods            |
 
 ---
 
 ## 5. Grouping and Aggregation Results
 
-| Group | Count | Total | Average | Rank |
-|---|---|---|---|---|
-| (Run category_summary to fill this table with actual values) | | | | |
+| Group                                                        | Count | Total | Average | Rank |
+| ------------------------------------------------------------ | ----- | ----- | ------- | ---- |
+| (Run category_summary to fill this table with actual values) |       |       |         |      |
 
 ---
 
 ## 6. Feature Engineering
 
-| New Feature | Logic Used | Why It Is Useful |
-|---|---|---|
-| spending_category | Bins total_spent into Low/Medium/High | Helps segment customers by spend level |
-| year | Extracted from transaction_date | Enables year-wise trend analysis |
-| month | Extracted from transaction_date | Enables monthly seasonality analysis |
-| day_name | Extracted from transaction_date | Identifies busiest days of the week |
-| revenue_per_unit | total_spent / quantity | Measures effective price realised per unit |
+| New Feature       | Logic Used                            | Why It Is Useful                           |
+| ----------------- | ------------------------------------- | ------------------------------------------ |
+| spending_category | Bins total_spent into Low/Medium/High | Helps segment customers by spend level     |
+| year              | Extracted from transaction_date       | Enables year-wise trend analysis           |
+| month             | Extracted from transaction_date       | Enables monthly seasonality analysis       |
+| day_name          | Extracted from transaction_date       | Identifies busiest days of the week        |
+| revenue_per_unit  | total_spent / quantity                | Measures effective price realised per unit |
 
 ---
 
 ## 7. Visualizations
 
-| Chart Title | Columns Used | Chart Type | Insight |
-|---|---|---|---|
-| Total Spent by Category | category, total_spent | Bar Chart | Top categories dominate revenue |
-| Distribution of Total Spent | total_spent | Histogram | Most transactions are low-to-medium value |
-| Monthly Sales Trend | month, total_spent | Line Chart | Clear seasonal peaks visible |
-| Spending Distribution by Category | category, total_spent | Box Plot | High variance and outliers in some categories |
-| Transactions by Payment Method | payment_method | Count Plot | Digital Wallet is the preferred payment method |
+| Chart Title                       | Columns Used          | Chart Type | Insight                                        |
+| --------------------------------- | --------------------- | ---------- | ---------------------------------------------- |
+| Total Spent by Category           | category, total_spent | Bar Chart  | Top categories dominate revenue                |
+| Distribution of Total Spent       | total_spent           | Histogram  | Most transactions are low-to-medium value      |
+| Monthly Sales Trend               | month, total_spent    | Line Chart | Clear seasonal peaks visible                   |
+| Spending Distribution by Category | category, total_spent | Box Plot   | High variance and outliers in some categories  |
+| Transactions by Payment Method    | payment_method        | Count Plot | Digital Wallet is the preferred payment method |
 
 ---
 
@@ -133,6 +133,3 @@ and seasonal trends. After thorough data cleaning, EDA, feature engineering,
 and visualization, 8 key insights were derived with actionable business
 recommendations. The cleaned dataset and summary outputs have been exported
 for further use.
-
----
-*Report generated using Python and Pandas*
